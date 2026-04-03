@@ -4,30 +4,60 @@ Official Node.js / TypeScript SDK for [FyVault](https://fyvault.com).
 
 ## Install
 
+From npm (when published):
+
 ```bash
 npm install @fyvault/sdk
+```
+
+From this repository (build runs on install via `prepare`):
+
+```bash
+npm install github:FybyteTech/fyvault-sdk-node
+```
+
+Local path / monorepo:
+
+```bash
+npm install file:../path/to/sdks/node
 ```
 
 ## Usage
 
 ```typescript
-import { FyVault } from '@fyvault/sdk';
+import { FyVault, FyVaultError } from "@fyvault/sdk";
 
-const client = new FyVault({ apiKey: 'your-api-key' });
+const client = new FyVault({
+  apiKey: process.env.FYVAULT_API_KEY!,
+  orgId: process.env.FYVAULT_ORG_ID!,
+  baseUrl: process.env.FYVAULT_API_BASE, // optional; defaults to https://api.fyvault.com/api/v1
+});
 
-// List secrets
+// Metadata
 const secrets = await client.secrets.list();
+const one = await client.secrets.get(secretId);
+const byName = await client.secrets.getByName("MY_SECRET");
 
-// Get a secret
-const secret = await client.secrets.get('my-secret');
+// Plaintext values (server-encrypted secrets; requires SECRETS_READ)
+const value = await client.secrets.getValue(secretId);
+const valueByName = await client.secrets.getValueByName("MY_SECRET");
+
+// Create / update / delete (requires SECRETS_WRITE where applicable)
+await client.secrets.create({
+  name: "MY_SECRET",
+  secretType: "env_var",
+  value: "secret-value",
+});
 ```
+
+### Errors
+
+Failed API calls throw `FyVaultError` with `status`, `code`, and `message`.
 
 ## Related
 
-- [fyvault-cloud](https://github.com/fybyte/fyvault-cloud) — Cloud API
-- [fyvault-python](https://github.com/fybyte/fyvault-python) — Python SDK
-- [fyvault-agent](https://github.com/fybyte/fyvault-agent) — Agent & CLI
-- [fyvault](https://github.com/fybyte/fyvault) — Frontend dashboard
+- [fyvault](https://github.com/FybyteTech/fyvault) — Monorepo (API, dashboard, this SDK source)
+- [fyvault-sdk-node](https://github.com/FybyteTech/fyvault-sdk-node) — Public mirror of this package
 
 ## License
 
