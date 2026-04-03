@@ -21,10 +21,10 @@ export interface SecretVersion {
 export interface CreateSecretInput {
   name: string;
   description?: string;
-  secret_type: string;
+  secretType: string;
   value?: string;
-  client_encrypted_value?: string;
-  injection_config?: Record<string, unknown>;
+  clientEncryptedValue?: string;
+  injectionConfig?: Record<string, unknown>;
 }
 
 export interface Device {
