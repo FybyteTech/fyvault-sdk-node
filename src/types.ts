@@ -55,6 +55,21 @@ export interface SecretValue {
   value: string;
 }
 
+export type ApiScope =
+  | "SECRETS_READ"
+  | "SECRETS_WRITE"
+  | "DEVICES_READ"
+  | "DEVICES_WRITE"
+  | "AUDIT_READ"
+  | "BOOT";
+
+export interface MintSessionTokenResult {
+  token: string;
+  session_token_id: string;
+  expires_at: string;
+  scopes: ApiScope[];
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data: T;

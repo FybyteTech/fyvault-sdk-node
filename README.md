@@ -45,9 +45,19 @@ const valueByName = await client.secrets.getValueByName("MY_SECRET");
 // Create / update / delete (requires SECRETS_WRITE where applicable)
 await client.secrets.create({
   name: "MY_SECRET",
-  secretType: "env_var",
+  secretType: "GENERIC",
   value: "secret-value",
+  injectionConfig: {},
 });
+
+// Short-lived session token (mint with fv_live_ key; use returned token as apiKey in a second client)
+const session = await client.accessTokens.create({ ttlSeconds: 900 });
+const ephemeral = new FyVault({
+  apiKey: session.token,
+  orgId: process.env.FYVAULT_ORG_ID!,
+  baseUrl: process.env.FYVAULT_API_BASE,
+});
+await ephemeral.secrets.list();
 ```
 
 ### Errors
