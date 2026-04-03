@@ -17,7 +17,7 @@ export class FyVault {
   constructor(opts: FyVaultOptions) {
     const http = new HttpClient(
       opts.apiKey,
-      opts.baseUrl || "https://api.fyvault.dev/api/v1"
+      opts.baseUrl || "https://api.fyvault.com/api/v1"
     );
     const orgId = opts.orgId;
     this.secrets = new SecretsResource(http, orgId);
