@@ -50,6 +50,11 @@ export interface Organization {
   created_at: string;
 }
 
+export interface SecretValue {
+  name: string;
+  value: string;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
