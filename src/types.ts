@@ -70,6 +70,28 @@ export interface MintSessionTokenResult {
   scopes: ApiScope[];
 }
 
+export interface SecretHandle {
+  handle: string;
+  handle_id: string;
+  expires_at: string;
+  secret_name: string;
+}
+
+export interface Environment {
+  environment_id: string;
+  name: string;
+  description: string | null;
+  is_default: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateEnvironmentInput {
+  name: string;
+  description?: string;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
