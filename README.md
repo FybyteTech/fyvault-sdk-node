@@ -1,6 +1,6 @@
 # @fyvault/sdk
 
-Official Node.js / TypeScript SDK for [FyVault](https://fyvault.dev).
+Official Node.js / TypeScript SDK for [FyVault](https://fyvault.com).
 
 ## Install
 
