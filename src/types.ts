@@ -97,3 +97,24 @@ export interface ApiResponse<T> {
   data: T;
   error?: string;
 }
+
+export interface ScanFinding {
+  pattern_name: string;
+  matched_text: string;
+  line_number: number;
+  confidence: "high" | "medium" | "low";
+}
+
+export interface SyncResult {
+  platform: string;
+  synced: number;
+  failed: number;
+  errors: string[];
+}
+
+export interface GenerateResult {
+  format: string;
+  filename: string;
+  content: string;
+  count: number;
+}

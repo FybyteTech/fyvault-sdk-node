@@ -22,4 +22,16 @@ export class DevicesResource {
   async revoke(deviceId: string): Promise<void> {
     return this.http.delete(`/orgs/${this.orgId}/devices/${deviceId}`);
   }
+
+  async update(deviceId: string, data: { name?: string }): Promise<Device> {
+    return this.http.patch(`/orgs/${this.orgId}/devices/${deviceId}`, data);
+  }
+
+  async assignSecret(deviceId: string, secretId: string): Promise<void> {
+    await this.http.post(`/orgs/${this.orgId}/devices/${deviceId}/secrets`, { secretId });
+  }
+
+  async unassignSecret(deviceId: string, secretId: string): Promise<void> {
+    return this.http.delete(`/orgs/${this.orgId}/devices/${deviceId}/secrets/${secretId}`);
+  }
 }
