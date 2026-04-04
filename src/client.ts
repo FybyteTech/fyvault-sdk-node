@@ -4,6 +4,8 @@ import { DevicesResource } from "./resources/devices.js";
 import { OrgsResource } from "./resources/orgs.js";
 import { AccessTokensResource } from "./resources/accessTokens.js";
 import { EnvironmentsResource } from "./resources/environments.js";
+import { ScannerResource } from "./resources/scanner.js";
+import { IntegrationsResource } from "./resources/integrations.js";
 
 export interface FyVaultOptions {
   apiKey: string;
@@ -19,6 +21,8 @@ export class FyVault {
   public orgs: OrgsResource;
   public accessTokens: AccessTokensResource;
   public environments: EnvironmentsResource;
+  public scanner: ScannerResource;
+  public integrations: IntegrationsResource;
 
   constructor(opts: FyVaultOptions) {
     const http = new HttpClient(
@@ -31,5 +35,7 @@ export class FyVault {
     this.orgs = new OrgsResource(http, orgId);
     this.accessTokens = new AccessTokensResource(http, orgId);
     this.environments = new EnvironmentsResource(http, orgId);
+    this.scanner = new ScannerResource(http, orgId);
+    this.integrations = new IntegrationsResource(http, orgId);
   }
 }

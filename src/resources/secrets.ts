@@ -57,6 +57,16 @@ export class SecretsResource {
   }
 
   /**
+   * Rotate a secret — creates a new version with a new value.
+   * If no value is provided, one is auto-generated based on the secret type.
+   */
+  async rotate(secretId: string, newValue?: string): Promise<{ secretId: string; name: string; version: number }> {
+    return this.http.post(`/orgs/${this.orgId}/secrets/${secretId}/rotate${this.envQ()}`, {
+      ...(newValue ? { value: newValue } : {}),
+    });
+  }
+
+  /**
    * Mint a rotating handle for a named secret.
    *
    * The handle is a short-lived token (default 5 min) that maps to the real secret.
