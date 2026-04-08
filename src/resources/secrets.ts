@@ -67,6 +67,21 @@ export class SecretsResource {
   }
 
   /**
+   * Create a one-time, time-limited share link for a secret.
+   *
+   * The link can be viewed exactly once and expires after the specified TTL.
+   * Default TTL is 24 hours (86400 seconds).
+   */
+  async share(
+    secretId: string,
+    ttlSeconds?: number
+  ): Promise<{ share_url: string; share_token: string; expires_at: string }> {
+    return this.http.post(`/orgs/${this.orgId}/secrets/${secretId}/share`, {
+      ttlSeconds: ttlSeconds || 86400,
+    });
+  }
+
+  /**
    * Mint a rotating handle for a named secret.
    *
    * The handle is a short-lived token (default 5 min) that maps to the real secret.
@@ -98,5 +113,41 @@ export class SecretsResource {
    */
   async revokeHandle(handleId: string): Promise<void> {
     return this.http.delete(`/orgs/${this.orgId}/handles/${handleId}`);
+  }
+
+  // ── Dependencies ────────────────────────────────────
+
+  /**
+   * Add a dependency between two secrets.
+   * When the source secret rotates, the target can optionally cascade.
+   */
+  async addDependency(
+    secretId: string,
+    targetSecretId: string,
+    type: string = "rotates_with",
+    autoCascade: boolean = false
+  ): Promise<{ id: string; sourceSecretId: string; targetSecretId: string; type: string; autoCascade: boolean }> {
+    return this.http.post(`/orgs/${this.orgId}/secrets/${secretId}/dependencies`, {
+      targetSecretId,
+      type,
+      autoCascade,
+    });
+  }
+
+  /**
+   * List upstream and downstream dependencies for a secret.
+   */
+  async listDependencies(secretId: string): Promise<{
+    upstream: Array<{ id: string; sourceSecretId: string; targetSecretId: string; type: string; autoCascade: boolean }>;
+    downstream: Array<{ id: string; sourceSecretId: string; targetSecretId: string; type: string; autoCascade: boolean }>;
+  }> {
+    return this.http.get(`/orgs/${this.orgId}/secrets/${secretId}/dependencies`);
+  }
+
+  /**
+   * Remove a dependency by its ID.
+   */
+  async removeDependency(secretId: string, depId: string): Promise<void> {
+    return this.http.delete(`/orgs/${this.orgId}/secrets/${secretId}/dependencies/${depId}`);
   }
 }
