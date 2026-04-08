@@ -92,6 +92,22 @@ export interface CreateEnvironmentInput {
   description?: string;
 }
 
+export interface AgentCredential {
+  credential_id: string;
+  name: string;
+  description: string | null;
+  agent_type: string;
+  scopes: ApiScope[];
+  allowed_secrets: string[];
+  allowed_environments: string[];
+  max_ttl_seconds: number;
+  rate_limit_rpm: number | null;
+  expires_at: string | null;
+  is_active: boolean;
+  last_used_at: string | null;
+  created_at: string;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
