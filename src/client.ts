@@ -11,6 +11,7 @@ import { AgentCredentialsResource } from "./resources/agentCredentials.js";
 import { BreakGlassResource } from "./resources/breakGlass.js";
 import { SandboxesResource } from "./resources/sandboxes.js";
 import { ComplianceResource } from "./resources/compliance.js";
+import { ProvidersResource } from "./resources/providers.js";
 
 export interface FyVaultOptions {
   apiKey: string;
@@ -32,6 +33,7 @@ export class FyVault {
   public breakGlass: BreakGlassResource;
   public sandboxes: SandboxesResource;
   public compliance: ComplianceResource;
+  public providers: ProvidersResource;
 
   /**
    * Zero-config initialization. Automatically detects auth method,
@@ -71,5 +73,6 @@ export class FyVault {
     this.breakGlass = new BreakGlassResource(http, orgId);
     this.sandboxes = new SandboxesResource(http, orgId);
     this.compliance = new ComplianceResource(http, orgId);
+    this.providers = new ProvidersResource(http, orgId);
   }
 }

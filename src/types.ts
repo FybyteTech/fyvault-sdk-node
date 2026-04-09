@@ -108,6 +108,23 @@ export interface AgentCredential {
   created_at: string;
 }
 
+// ------------------------------------------------------------------
+// Providers
+// ------------------------------------------------------------------
+
+export interface ProviderIntegration {
+  providerId: string;
+  name: string;
+  description?: string;
+  providerType: string;
+  allowedEnvironments: string[];
+  allowedSecretPrefix?: string;
+  rateLimitRpm?: number;
+  isActive: boolean;
+  lastUsedAt?: string;
+  createdAt: string;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
